@@ -22,7 +22,7 @@
 #
 #  Python Crypto and Python Pexpect is required - apt-get install python-crypto python-pexpect
 #
-import socketserver
+import SocketServer   #when trying this on Centos box I found that SocketServer had to be capitalized (re: http://stackoverflow.com/questions/13329761/no-module-named-serversocket)
 from threading import Thread
 import subprocess
 import sys
@@ -61,7 +61,7 @@ global queue_lock
 queue_lock = 0
 
 # main service handler for auto_server
-class service(socketserver.BaseRequestHandler):
+class service(SocketServer.BaseRequestHandler):
     def handle(self):
         # parse OSSEC hids client certificate
         def parse_client(hostname, ipaddr):
@@ -255,7 +255,7 @@ def ossec_monitor():
                 subprocess.Popen("service ossec restart", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).wait()
                 counter = 0
 
-class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer): pass
+class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer): pass
 
 print("[*] The auto enrollment OSSEC Server is now listening on 9654")
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
